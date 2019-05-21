@@ -27,10 +27,10 @@ func Example() {
 	)
 	checkResult(b, err)
 
-	// use jsoneq.Byte to check if a value is equal to JSON string
+	// when a type of value is []byte, it is treated as JSON string
 	b, err = jsoneq.Equal(
 		Foo{Foo: "bar"},
-		jsoneq.Byte([]byte(`{"foo": "bar"}`)),
+		[]byte(`{"foo": "bar"}`),
 	)
 	checkResult(b, err)
 
