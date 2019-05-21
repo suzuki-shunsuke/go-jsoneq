@@ -1,8 +1,3 @@
-# go-jsoneq
-
-Golang library to check if two values are equal as JSON.
-
-```go
 package jsoneq_test
 
 import (
@@ -43,8 +38,3 @@ func Example() {
 	// true
 	// true
 }
-```
-
-## License
-
-[MIT](LICENSE)
