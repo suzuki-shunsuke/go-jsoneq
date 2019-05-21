@@ -76,10 +76,8 @@ func TestConvert(t *testing.T) {
 		exp     interface{}
 	}{
 		{
-			title: "simple jsonByte map",
-			x: &jsonByte{
-				data: []byte(`{"foo": "bar"}`),
-			},
+			title: "simple []byte map",
+			x:     []byte(`{"foo": "bar"}`),
 			exp: map[string]interface{}{
 				"foo": "bar",
 			},
@@ -118,13 +116,6 @@ func TestConvert(t *testing.T) {
 	}
 }
 
-func TestByte(t *testing.T) {
-	b := []byte("foo")
-	a := Byte(b)
-	j := a.(*jsonByte)
-	require.Equal(t, b, j.data)
-}
-
 func TestEqual(t *testing.T) {
 	data := []struct {
 		title   string
@@ -144,10 +135,8 @@ func TestEqual(t *testing.T) {
 			exp: true,
 		},
 		{
-			title: "compare jsonByte and map",
-			x: &jsonByte{
-				data: []byte(`{"foo": "bar"}`),
-			},
+			title: "compare []byte and map",
+			x:     []byte(`{"foo": "bar"}`),
 			y: map[string]string{
 				"foo": "bar",
 			},

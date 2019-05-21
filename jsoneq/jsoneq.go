@@ -6,12 +6,6 @@ import (
 	"reflect"
 )
 
-type (
-	jsonByte struct {
-		data []byte
-	}
-)
-
 // ConvertByte converts a byte array to an object which can be checked if it is equal to the other value as JSON.
 func ConvertByte(b []byte) (interface{}, error) {
 	data := []interface{}{
@@ -31,8 +25,8 @@ func ConvertByte(b []byte) (interface{}, error) {
 
 // Convert converts a given value to an object which can be checked if it is equal to the other value as JSON.
 func Convert(x interface{}) (interface{}, error) {
-	if a, ok := x.(*jsonByte); ok {
-		return ConvertByte(a.data)
+	if a, ok := x.([]byte); ok {
+		return ConvertByte(a)
 	}
 	b, err := json.Marshal(x)
 	if err != nil {
@@ -55,9 +49,4 @@ func Equal(x, y interface{}) (bool, error) {
 		return false, err
 	}
 	return reflect.DeepEqual(a, b), nil
-}
-
-// Byte converts a byte array to convert it to an object which can be checked if it is equal the other value as JSON.
-func Byte(b []byte) interface{} {
-	return &jsonByte{data: b}
 }
