@@ -26,6 +26,48 @@ steps:
     path: /go
   environment:
     GOPATH: /go
+
+- name: install reviewdog
+  image: *image_go
+  commands:
+  - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s
+  when: &pull_request
+    event:
+    - pull_request
+- name: git diff master for reviewdog
+  image: plugins/git
+  commands:
+  - git fetch
+  - git diff origin/master | tee diff.txt
+  when: *pull_request
+- name: golangci-lint (pull request)
+  image: golangci/golangci-lint:v1.21.0-alpine
+  commands:
+  - export CI_PULL_REQUEST="$DRONE_PULL_REQUEST"
+  - export CI_REPO_OWNER="$DRONE_REPO_OWNER"
+  - export CI_REPO_NAME="$DRONE_REPO_NAME"
+  - export CI_COMMIT="$DRONE_COMMIT_SHA"
+  - ./bin/reviewdog -reporter=github-pr-review -diff="cat diff.txt"
+  - rm diff.txt
+  volumes: *volumes
+  environment:
+    GOPATH: /go
+    REVIEWDOG_GITHUB_API_TOKEN:
+      from_secret: github_token
+  when: *pull_request
+
+- name: golangci-lint
+  image: golangci/golangci-lint:v1.21.0-alpine
+  commands:
+  - golangci-lint run
+  volumes: *volumes
+  environment:
+    GOPATH: /go
+  when:
+    event:
+      exclude:
+      - pull_request
+
 - name: codecov
   image: *image_go
   commands:
