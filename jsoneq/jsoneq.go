@@ -1,5 +1,6 @@
 package jsoneq
 
+
 import (
 	"encoding/json"
 	"fmt"
