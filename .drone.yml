@@ -1,5 +1,15 @@
 ---
 kind: pipeline
+name: durl
+clone:
+  depth: 1
+steps:
+- name: durl
+  image: quay.io/suzuki_shunsuke/durl:1.0.0
+  commands:
+  - sh scripts/durl.sh
+---
+kind: pipeline
 name: build
 clone:
   depth: 1
@@ -7,24 +17,13 @@ volumes:
 - name: gopath
   temp: {}
 steps:
-- name: durl
-  image: quay.io/suzuki_shunsuke/durl:1.0.0
-  commands:
-  - sh scripts/durl.sh
 - name: download go modules
-  image: &image_go golang:1.13.4
+  image: &image_go golang:1.13.5
   commands:
   - go mod download
   volumes: &volumes
   - name: gopath
     path: /go
-  environment:
-    GOPATH: /go
-- name: golangci-lint
-  image: golangci/golangci-lint:v1.21.0-alpine
-  commands:
-  - golangci-lint run
-  volumes: *volumes
   environment:
     GOPATH: /go
 - name: codecov
