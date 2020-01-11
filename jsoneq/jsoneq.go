@@ -8,19 +8,12 @@ import (
 
 // ConvertByte converts a byte array to an object which can be checked if it is equal to the other value as JSON.
 func ConvertByte(b []byte) (interface{}, error) {
-	data := []interface{}{
-		map[string]interface{}{},
-		[]interface{}{},
-		true,
-		0,
-		"",
+	var d interface{}
+	err := json.Unmarshal(b, &d)
+	if err == nil {
+		return d, nil
 	}
-	for _, d := range data {
-		if err := json.Unmarshal(b, &d); err == nil {
-			return d, nil
-		}
-	}
-	return nil, fmt.Errorf("failed to unmarshal json")
+	return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 }
 
 // Convert converts a given value to an object which can be checked if it is equal to the other value as JSON.
@@ -30,7 +23,7 @@ func Convert(x interface{}) (interface{}, error) {
 	}
 	b, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("faled to marshal json: %w", err)
 	}
 	return ConvertByte(b)
 }

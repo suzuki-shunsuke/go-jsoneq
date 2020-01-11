@@ -1,2 +1,6 @@
-cmdx test || exit 1
+#!/usr/bin/env bash
+
+set -eu
+
+cmdx test
 cmdx lint
