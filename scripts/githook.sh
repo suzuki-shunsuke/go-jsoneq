@@ -1,10 +1,14 @@
-echoEval() {
-  echo "+ $@"
+#!/usr/bin/env bash
+
+set -eu
+
+ee() {
+  echo "+ $*"
   eval "$@"
 }
 
-cd `dirname $0`/..
 if [ ! -f .git/hooks/pre-commit ]; then
-  echoEval ln -s ../../githooks/pre-commit.sh .git/hooks/pre-commit || exit 1
+  ee ln -s ../../githooks/pre-commit.sh .git/hooks/pre-commit
 fi
-echoEval chmod a+x githooks/*
+
+ee chmod a+x githooks/*

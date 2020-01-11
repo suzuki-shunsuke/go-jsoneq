@@ -1,5 +1,11 @@
-find . -type d -name node_modules -prune -o \
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+cd "$(dirname "$0")/.."
+
+find . \
   -type d -name .git -prune -o \
-  -type d -name vendor -prune -o \
-  -type f -name "*.go" -print \
-  | xargs gofmt -l -s -w
+  -type f -name "*.go" -print0 |
+  xargs -0 gofmt -l -s -w

@@ -47,3 +47,15 @@ tasks:
   description: generate mocks
   usage: generate mocks
   script: gomic gen && cmdx fmt
+- name: shellcheck
+  description: shellcheck
+  usage: shellcheck
+  script: 'find . -name "*.sh" -print0 | xargs -0 shellcheck'
+- name: shfmt
+  description: shfmt
+  usage: shfmt
+  script: 'find . -name "*.sh" -print0 | xargs -0 shfmt -l -w'
+- name: yamllint
+  description: yamllint
+  usage: yamllint
+  script: 'find . \( -name "*.yml" -o -name "*.yaml" \) -print0 | xargs -0 yamllint -c .yamllint.yml'

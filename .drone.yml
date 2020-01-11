@@ -10,6 +10,28 @@ steps:
   - sh scripts/durl.sh
 ---
 kind: pipeline
+name: shell scripts
+clone:
+  depth: 1
+steps:
+- name: shellcheck
+  image: koalaman/shellcheck-alpine:v0.7.0
+  commands:
+  - shellcheck scripts/* githooks/*
+- name: shfmt
+  image: mvdan/shfmt:v3.0.0
+  commands:
+  - shfmt -d .
+---
+kind: pipeline
+name: yamllint
+steps:
+- name: yamllint
+  image: quay.io/suzuki_shunsuke/yamllint:1.20.0__1
+  commands:
+  - 'find . \( -name "*.yml" -o -name "*.yaml" \) -print0 | xargs -0 yamllint -c .yamllint.yml'
+---
+kind: pipeline
 name: build
 clone:
   depth: 1
