@@ -8,7 +8,13 @@
 [![GitHub tag](https://img.shields.io/github/tag/suzuki-shunsuke/go-jsoneq.svg)](https://github.com/suzuki-shunsuke/go-jsoneq/releases)
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/go-jsoneq/master/LICENSE)
 
-Golang library to check if two values are equal as JSON.
+Go library to check if two values are equal as JSON
+
+## Deprecated: Please use suzuki-shunsuke/go-dataeq instead of this library
+
+https://github.com/suzuki-shunsuke/go-dataeq
+
+## Example
 
 ```go
 package jsoneq_test
